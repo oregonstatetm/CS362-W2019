@@ -5,6 +5,15 @@
 #include <math.h>
 #include <stdlib.h>
 
+/*
+NOTE:
+The refactored code is contained at the bottom of this function. Each function was added to dominion.h as well.
+
+The bugs are indicated by a comment which reads 
+//Bug Introduced: . . . 
+
+*/
+
 int compare(const void* a, const void* b) {
   if (*(int*)a > *(int*)b)
     return 1;
@@ -703,6 +712,8 @@ return 0;
     {
 
 /*
+NOTE: adventurer case has been refactored to the adventurerFunction() below.
+
     case adventurer:
       while(drawntreasure<2){
 	if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
@@ -866,7 +877,7 @@ return 0;
       return 0;
 /*
 
-// See new function smithyFunction();
+NOTE: smithy case has been refactored to the smithyFunction() below.
 
     case smithy:
       //+3 Cards
@@ -879,7 +890,10 @@ return 0;
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
 */
-/*	
+/*
+
+NOTE: village case has been refactored to the villageFunction() below.
+	
     case village:
       //+1 Card
       drawCard(currentPlayer, state);
@@ -942,6 +956,7 @@ return 0;
       
       return 0;
 /*		
+NOTE: great hall case has been refactored to the greatHallFunction() below.
     case great_hall:
       //+1 Card
       drawCard(currentPlayer, state);
@@ -1196,6 +1211,8 @@ return 0;
       discardCard(handPos, currentPlayer, state, 1);		
       return 0;
 /*		
+NOTE: outpost case has been refactored to the outpostFunction() below.
+
     case outpost:
       //set outpost flag
       state->outpostPlayed++;
@@ -1369,12 +1386,26 @@ int updateCoins(int player, struct gameState *state, int bonus)
   return 0;
 }
 
+
+
+/*
+REFACTORED CODE
+
+The functions below include refactored code for the smithy, adventurer, village, great hall, and outpost cards. 
+
+Each function has a signature which includes 3 parameters. 
+
+There are bugs in all functions except for 
+
+*/
+
 int smithyFunction(int currentPlayer,struct gameState *state, int handPos)
 {
 //+3 Cards
 for(int i=0;i<3;i++)
 {
-drawCard(1,state); // smithy function always draws card for player 1.
+drawCard(1,state); 
+//Bug Introduced: smithy function always draws card for player 1.
 }
 //discard card from hand
 discardCard(handPos,currentPlayer,state,0);
@@ -1397,7 +1428,8 @@ while(drawntreasure<2){
 	drawCard(currentPlayer, state);
 	cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
 	if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
-	  drawntreasure--; // introduce bug to decrement drawntreasure
+	  drawntreasure--; 
+//Bug Introduced: decrement drawntreasure instead of increment which causes the program to crash/hang when teh adventurer card is played
 	else{
 	  temphand[z]=cardDrawn;
 	  state->handCount[currentPlayer]--; //this should just remove the top card (the most recently drawn one).
