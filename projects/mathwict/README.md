@@ -1,1 +1,1 @@
-trevor mathwict
+Assignment 3 Readme
